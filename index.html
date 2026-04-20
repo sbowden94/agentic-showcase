@@ -3,6 +3,1131 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Future Is Already Here — Autonomous AI Development | Scott Bowden</title>
+    <meta name="description" content="A fully autonomous AI development system that boots itself, heals itself, and builds enterprise software around the clock. The sci-fi future isn't coming — it's running on a laptop in 2026.">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+        :root {
+            --bg: #0a0a0f;
+            --bg-card: #111118;
+            --bg-card-hover: #16161f;
+            --bg-surface: #0d0d14;
+            --border: rgba(255,255,255,.06);
+            --border-glow: rgba(99,102,241,.3);
+            --text: #e2e8f0;
+            --text-dim: #64748b;
+            --text-muted: #475569;
+            --accent: #818cf8;
+            --accent-bright: #a5b4fc;
+            --accent-dim: rgba(99,102,241,.15);
+            --cyan: #22d3ee;
+            --cyan-dim: rgba(34,211,238,.12);
+            --green: #34d399;
+            --green-dim: rgba(52,211,153,.12);
+            --amber: #fbbf24;
+            --amber-dim: rgba(251,191,36,.12);
+            --red: #f87171;
+            --red-dim: rgba(248,113,113,.12);
+            --pink: #f472b6;
+            --mono: 'JetBrains Mono', 'Cascadia Code', 'Fira Code', monospace;
+            --sans: 'Inter', system-ui, -apple-system, sans-serif;
+            --radius: 12px;
+            --glow: 0 0 30px rgba(99,102,241,.15), 0 0 60px rgba(99,102,241,.05);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: var(--sans);
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ── GRID BACKGROUND ── */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background:
+                linear-gradient(rgba(99,102,241,.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(99,102,241,.03) 1px, transparent 1px);
+            background-size: 60px 60px;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* ── NAV ── */
+        nav {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(10,10,15,.9);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            padding: 0 2rem;
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+        nav .brand {
+            font-family: var(--mono);
+            font-size: .85rem;
+            font-weight: 700;
+            color: var(--accent);
+            padding: 1rem 0;
+            white-space: nowrap;
+            letter-spacing: 1px;
+        }
+        nav .brand .dim { color: var(--text-muted); }
+        nav ul { list-style: none; display: flex; gap: .125rem; overflow-x: auto; }
+        nav a {
+            color: var(--text-dim);
+            text-decoration: none;
+            padding: .75rem .875rem;
+            font-size: .78rem;
+            font-weight: 500;
+            border-radius: 8px;
+            transition: all .2s;
+            white-space: nowrap;
+        }
+        nav a:hover, nav a.active { color: var(--accent-bright); background: var(--accent-dim); }
+
+        /* ── HERO ── */
+        .hero {
+            position: relative;
+            padding: 8rem 2rem 6rem;
+            text-align: center;
+            overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -200px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, rgba(99,102,241,.12) 0%, rgba(34,211,238,.04) 40%, transparent 70%);
+            pointer-events: none;
+        }
+        .hero > * { position: relative; z-index: 1; }
+        .hero-eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: .6rem;
+            font-family: var(--mono);
+            font-size: .72rem;
+            font-weight: 600;
+            color: var(--cyan);
+            background: var(--cyan-dim);
+            border: 1px solid rgba(34,211,238,.2);
+            padding: .5rem 1.25rem;
+            border-radius: 100px;
+            margin-bottom: 2rem;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+        .hero h1 {
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            font-weight: 900;
+            line-height: 1.08;
+            margin-bottom: 1.5rem;
+            letter-spacing: -.03em;
+        }
+        .hero h1 .gradient {
+            background: linear-gradient(135deg, var(--accent-bright), var(--cyan), var(--green));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .hero .manifesto {
+            font-size: 1.25rem;
+            color: var(--text-dim);
+            max-width: 720px;
+            margin: 0 auto 3rem;
+            line-height: 1.8;
+        }
+        .hero .manifesto em {
+            color: var(--text);
+            font-style: normal;
+            font-weight: 600;
+        }
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            flex-wrap: wrap;
+        }
+        .hero-stat {
+            text-align: center;
+        }
+        .hero-stat .value {
+            font-family: var(--mono);
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--accent-bright);
+            display: block;
+        }
+        .hero-stat .label {
+            font-size: .72rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: .25rem;
+        }
+
+        /* ── SECTIONS ── */
+        section {
+            max-width: 1120px;
+            margin: 0 auto;
+            padding: 5rem 2rem;
+            position: relative;
+            z-index: 1;
+        }
+        section:target { scroll-margin-top: 70px; }
+        .section-label {
+            font-family: var(--mono);
+            text-transform: uppercase;
+            font-size: .65rem;
+            font-weight: 700;
+            letter-spacing: 3px;
+            color: var(--accent);
+            margin-bottom: .75rem;
+        }
+        section > h2 {
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: .5rem;
+            letter-spacing: -.02em;
+        }
+        section > .subtitle {
+            color: var(--text-dim);
+            margin-bottom: 3rem;
+            font-size: 1.05rem;
+            max-width: 720px;
+        }
+
+        /* ── CARDS ── */
+        .card-grid { display: grid; gap: 1.25rem; }
+        .card-grid.cols-2 { grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); }
+        .card-grid.cols-3 { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+        .card-grid.cols-4 { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+
+        .card {
+            background: var(--bg-card);
+            border-radius: var(--radius);
+            padding: 1.75rem;
+            border: 1px solid var(--border);
+            transition: all .3s;
+        }
+        .card:hover { background: var(--bg-card-hover); border-color: var(--border-glow); box-shadow: var(--glow); }
+        .card h3 {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: .5rem;
+            display: flex;
+            align-items: center;
+            gap: .5rem;
+        }
+        .card p, .card li { font-size: .88rem; color: var(--text-dim); line-height: 1.65; }
+        .card ul { padding-left: 1.25rem; margin-top: .5rem; }
+        .card ul li { margin-bottom: .3rem; }
+
+        .tag {
+            display: inline-block;
+            font-family: var(--mono);
+            font-size: .6rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            padding: .25rem .7rem;
+            border-radius: 6px;
+            margin-bottom: .75rem;
+        }
+        .tag-accent { background: var(--accent-dim); color: var(--accent); }
+        .tag-cyan { background: var(--cyan-dim); color: var(--cyan); }
+        .tag-green { background: var(--green-dim); color: var(--green); }
+        .tag-amber { background: var(--amber-dim); color: var(--amber); }
+
+        /* ── BOOT CHAIN ── */
+        .chain {
+            display: flex;
+            align-items: stretch;
+            gap: 0;
+            margin: 2.5rem 0;
+            overflow-x: auto;
+            padding-bottom: .5rem;
+        }
+        .chain-step {
+            flex: 1;
+            min-width: 140px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            padding: 1.25rem 1rem;
+            text-align: center;
+            position: relative;
+            transition: all .3s;
+        }
+        .chain-step:first-child { border-radius: var(--radius) 0 0 var(--radius); }
+        .chain-step:last-child { border-radius: 0 var(--radius) var(--radius) 0; }
+        .chain-step:hover { background: var(--bg-card-hover); border-color: var(--border-glow); }
+        .chain-step .step-num {
+            font-family: var(--mono);
+            font-size: .6rem;
+            font-weight: 700;
+            color: var(--accent);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: .5rem;
+        }
+        .chain-step .step-title {
+            font-size: .85rem;
+            font-weight: 700;
+            margin-bottom: .25rem;
+        }
+        .chain-step .step-detail {
+            font-size: .72rem;
+            color: var(--text-muted);
+        }
+        .chain-step::after {
+            content: '\2192';
+            position: absolute;
+            right: -8px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 1rem;
+            color: var(--accent);
+            z-index: 2;
+        }
+        .chain-step:last-child::after { display: none; }
+        .chain-step.active {
+            border-color: var(--accent);
+            box-shadow: var(--glow);
+        }
+        .chain-step.active .step-title { color: var(--accent-bright); }
+
+        /* ── CALLOUT ── */
+        .callout {
+            background: var(--accent-dim);
+            border-left: 3px solid var(--accent);
+            border-radius: 0 var(--radius) var(--radius) 0;
+            padding: 1.25rem 1.5rem;
+            margin: 2rem 0;
+            font-size: .9rem;
+            color: var(--text-dim);
+        }
+        .callout strong { display: block; margin-bottom: .25rem; color: var(--text); }
+        .callout.green { background: var(--green-dim); border-left-color: var(--green); }
+        .callout.amber { background: var(--amber-dim); border-left-color: var(--amber); }
+
+        /* ── AGENT DIAGRAM ── */
+        .agent-diagram {
+            background: var(--bg-card);
+            border-radius: var(--radius);
+            padding: 2.5rem;
+            border: 1px solid var(--border);
+            margin: 2rem 0;
+            overflow-x: auto;
+        }
+        .agent-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: .75rem;
+            flex-wrap: wrap;
+            margin-bottom: 1rem;
+        }
+        .agent-row:last-child { margin-bottom: 0; }
+        .agent-node {
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: .75rem 1.25rem;
+            text-align: center;
+            font-size: .8rem;
+            font-weight: 600;
+            min-width: 130px;
+            background: var(--bg-card);
+        }
+        .agent-node small { display: block; font-weight: 400; font-size: .68rem; color: var(--text-muted); margin-top: .2rem; }
+        .agent-node.coordinator { border-color: var(--accent); background: var(--accent-dim); min-width: 200px; padding: 1.25rem; font-size: .9rem; box-shadow: var(--glow); }
+        .agent-node.specialist { border-color: rgba(34,211,238,.3); background: var(--cyan-dim); }
+        .agent-node.artifact { border-color: rgba(52,211,153,.3); background: var(--green-dim); }
+        .agent-node.human { border-color: rgba(251,191,36,.3); background: var(--amber-dim); }
+        .agent-arrow { text-align: center; font-size: 1.2rem; color: var(--text-muted); margin: .5rem 0; }
+        .layer-label {
+            text-align: center;
+            font-family: var(--mono);
+            font-size: .6rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2.5px;
+            color: var(--text-muted);
+            margin-bottom: .75rem;
+        }
+
+        /* ── FLOW ── */
+        .flow-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: .5rem;
+            flex-wrap: wrap;
+            margin: 2rem 0;
+        }
+        .flow-box {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: .875rem 1.25rem;
+            text-align: center;
+            font-size: .82rem;
+            font-weight: 600;
+            min-width: 120px;
+            color: var(--text);
+        }
+        .flow-box small { display: block; font-weight: 400; font-size: .72rem; color: var(--text-muted); margin-top: .2rem; }
+        .flow-box.highlight { border-color: var(--accent); background: var(--accent-dim); color: var(--accent-bright); box-shadow: var(--glow); }
+        .flow-box.glow-green { border-color: var(--green); background: var(--green-dim); color: var(--green); }
+        .flow-arrow { font-size: 1.25rem; color: var(--text-muted); }
+
+        /* ── HEAL GRID ── */
+        .heal-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.25rem;
+            margin: 2rem 0;
+        }
+        .heal-card {
+            background: var(--bg-card);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            border: 1px solid var(--border);
+            border-top: 2px solid var(--green);
+            transition: all .3s;
+        }
+        .heal-card:hover { background: var(--bg-card-hover); box-shadow: 0 0 20px rgba(52,211,153,.08); }
+        .heal-card h4 { font-size: .95rem; font-weight: 700; margin-bottom: .4rem; }
+        .heal-card p { font-size: .85rem; color: var(--text-dim); }
+        .heal-card .trigger {
+            display: inline-block;
+            margin-top: .75rem;
+            font-family: var(--mono);
+            font-size: .65rem;
+            font-weight: 600;
+            color: var(--green);
+            background: var(--green-dim);
+            padding: .25rem .6rem;
+            border-radius: 6px;
+            letter-spacing: .5px;
+        }
+
+        /* ── TABLE ── */
+        .data-table-wrap { overflow-x: auto; margin: 1.5rem 0; }
+        table.data-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: .85rem;
+            background: var(--bg-card);
+            border-radius: var(--radius);
+            overflow: hidden;
+            border: 1px solid var(--border);
+        }
+        table.data-table thead { background: rgba(99,102,241,.1); }
+        table.data-table th {
+            padding: .8rem 1rem;
+            text-align: left;
+            font-weight: 600;
+            font-size: .7rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--accent);
+            border-bottom: 1px solid var(--border);
+        }
+        table.data-table td {
+            padding: .65rem 1rem;
+            border-bottom: 1px solid var(--border);
+            color: var(--text-dim);
+        }
+        table.data-table tbody tr:hover { background: var(--bg-card-hover); }
+        table.data-table code {
+            background: rgba(255,255,255,.06);
+            padding: .1rem .35rem;
+            border-radius: 4px;
+            font-size: .78rem;
+            font-family: var(--mono);
+            color: var(--cyan);
+        }
+
+        /* ── CODE BLOCK ── */
+        .code-block {
+            background: var(--bg-surface);
+            border: 1px solid var(--border);
+            color: var(--text-dim);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            font-family: var(--mono);
+            font-size: .8rem;
+            line-height: 1.75;
+            overflow-x: auto;
+            margin: 1.25rem 0;
+        }
+        .code-block .comment { color: var(--text-muted); }
+        .code-block .key { color: var(--cyan); }
+        .code-block .string { color: var(--green); }
+        .code-block .accent { color: var(--accent-bright); }
+
+        /* ── METRICS ── */
+        .metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+        .metric {
+            background: var(--bg-card);
+            border-radius: var(--radius);
+            padding: 1.5rem 1.25rem;
+            text-align: center;
+            border: 1px solid var(--border);
+            transition: all .3s;
+        }
+        .metric:hover { border-color: var(--border-glow); box-shadow: var(--glow); }
+        .metric .number {
+            font-family: var(--mono);
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--accent-bright);
+        }
+        .metric .label {
+            font-size: .72rem;
+            color: var(--text-muted);
+            margin-top: .35rem;
+            text-transform: uppercase;
+            letter-spacing: .5px;
+        }
+
+        /* ── TIMELINE ── */
+        .timeline { position: relative; padding-left: 2.5rem; margin-top: 1.5rem; }
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: .8rem;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(to bottom, var(--accent), var(--cyan), var(--green));
+            border-radius: 2px;
+        }
+        .timeline-item { position: relative; margin-bottom: 2rem; }
+        .timeline-item::before {
+            content: attr(data-step);
+            position: absolute;
+            left: -2.5rem;
+            top: .15rem;
+            width: 1.75rem;
+            height: 1.75rem;
+            background: var(--accent);
+            color: var(--bg);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: .72rem;
+            font-weight: 700;
+            z-index: 1;
+        }
+        .timeline-item.done::before { background: var(--green); }
+        .timeline-item.active::before { background: var(--cyan); box-shadow: 0 0 12px rgba(34,211,238,.4); }
+        .timeline-item h3 { font-size: 1rem; margin-bottom: .25rem; font-weight: 700; }
+        .timeline-item p { font-size: .88rem; color: var(--text-dim); }
+
+        /* ── FOOTER ── */
+        footer {
+            background: var(--bg-surface);
+            border-top: 1px solid var(--border);
+            color: var(--text-muted);
+            text-align: center;
+            padding: 3rem 2rem;
+            margin-top: 3rem;
+            font-size: .82rem;
+            position: relative;
+            z-index: 1;
+        }
+        footer strong { color: var(--text); }
+        footer a { color: var(--accent); text-decoration: none; }
+        footer a:hover { text-decoration: underline; }
+        footer .manifesto-small {
+            font-style: italic;
+            color: var(--text-muted);
+            margin-top: .75rem;
+            font-size: .78rem;
+        }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 768px) {
+            .hero { padding: 5rem 1.5rem 3rem; }
+            .hero h1 { font-size: 2rem; }
+            .hero-stats { gap: 1.5rem; }
+            nav ul { gap: 0; }
+            nav a { padding: .65rem .5rem; font-size: .72rem; }
+            section { padding: 3rem 1rem; }
+            .card-grid.cols-3, .card-grid.cols-4 { grid-template-columns: 1fr; }
+            .chain { flex-direction: column; }
+            .chain-step::after { content: '\2193'; position: static; display: block; margin-top: .5rem; }
+            .chain-step:last-child::after { display: none; }
+            .chain-step { border-radius: var(--radius) !important; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ═══════════════════ NAV ═══════════════════ -->
+<nav>
+    <div class="brand">FUTURE<span class="dim">::</span>NOW</div>
+    <ul>
+        <li><a href="#manifesto">Manifesto</a></li>
+        <li><a href="#closed-loop">Closed Loop</a></li>
+        <li><a href="#agents">Agents</a></li>
+        <li><a href="#heartbeat">Heartbeat</a></li>
+        <li><a href="#self-healing">Self-Healing</a></li>
+        <li><a href="#product">Product</a></li>
+        <li><a href="#concepts">Concepts</a></li>
+        <li><a href="#stack">Stack</a></li>
+    </ul>
+</nav>
+
+<!-- ═══════════════════ HERO ═══════════════════ -->
+<div class="hero">
+    <div class="hero-eyebrow">&#9670; Autonomous AI Development System &#183; 2026</div>
+    <h1>The Future Is<br><span class="gradient">Already Here</span></h1>
+    <p class="manifesto">
+        We keep waiting for the sci-fi future to arrive. <em>It already has.</em>
+        This is a laptop where AI agents wake themselves up, decide what to build,
+        write the code, test it, review it, and push it &#8212; while the human sleeps.
+        Not a demo. Not a concept. <em>A running system.</em>
+    </p>
+    <div class="hero-stats">
+        <div class="hero-stat">
+            <span class="value">5</span>
+            <span class="label">AI Agents</span>
+        </div>
+        <div class="hero-stat">
+            <span class="value">24/7</span>
+            <span class="label">Autonomous Loop</span>
+        </div>
+        <div class="hero-stat">
+            <span class="value">0</span>
+            <span class="label">Approve Buttons</span>
+        </div>
+        <div class="hero-stat">
+            <span class="value">&infin;</span>
+            <span class="label">Sprint Cycles</span>
+        </div>
+    </div>
+</div>
+
+<!-- ═══════════════════ MANIFESTO ═══════════════════ -->
+<section id="manifesto">
+    <div class="section-label">The Thesis</div>
+    <h2>Stop Denying It. Start Living It.</h2>
+    <p class="subtitle">Every generation imagines the future as distant. Then one day you look around and realize you're already in it.</p>
+
+    <div class="card-grid cols-3">
+        <div class="card">
+            <div class="tag tag-accent">The Old Way</div>
+            <h3>Human Prompts, AI Responds</h3>
+            <p>You type a message. AI generates a response. You approve it. You type another message. It's a glorified autocomplete with extra steps. The human is still the bottleneck.</p>
+        </div>
+        <div class="card">
+            <div class="tag tag-cyan">The Transition</div>
+            <h3>AI Assists, Human Approves</h3>
+            <p>AI suggests edits, runs commands, opens PRs. But every action requires clicking "Approve." You're still babysitting. The future is right there &#8212; behind a confirmation dialog.</p>
+        </div>
+        <div class="card">
+            <div class="tag tag-green">The Future (Now)</div>
+            <h3>AI Operates, Human Steers</h3>
+            <p>Machine boots. AI wakes up. Reads its own state. Picks the next task. Writes code. Tests it. Reviews it. Commits. The human drops in when they want to change direction &#8212; not to push buttons.</p>
+        </div>
+    </div>
+
+    <div class="callout" style="margin-top: 2rem;">
+        <strong>This isn't a thought experiment.</strong>
+        This page describes a system running right now on a Windows laptop. Five AI agents collaborate through the filesystem. The machine auto-logs in on boot. Docker starts itself. VS Code opens the workspace. The agent reads its last known state and picks up where it left off. The only human action left is opening the chat.
+    </div>
+</section>
+
+<!-- ═══════════════════ CLOSED LOOP ═══════════════════ -->
+<section id="closed-loop">
+    <div class="section-label">Zero Friction</div>
+    <h2>The Closed-Loop Boot Chain</h2>
+    <p class="subtitle">From power button to working agent in under 60 seconds. Every link in the chain is automated. No login screens. No "click here to continue." No approve buttons.</p>
+
+    <div class="chain">
+        <div class="chain-step">
+            <div class="step-num">Step 01</div>
+            <div class="step-title">Power On</div>
+            <div class="step-detail">Machine starts &#8594; Windows auto-login via registry (no lock screen)</div>
+        </div>
+        <div class="chain-step">
+            <div class="step-num">Step 02</div>
+            <div class="step-title">Boot Script</div>
+            <div class="step-detail">Startup folder fires boot.ps1 &#8594; waits for network, refreshes PATH</div>
+        </div>
+        <div class="chain-step">
+            <div class="step-num">Step 03</div>
+            <div class="step-title">Services Up</div>
+            <div class="step-detail">Docker Desktop launches &#8594; PostgreSQL container ready</div>
+        </div>
+        <div class="chain-step">
+            <div class="step-num">Step 04</div>
+            <div class="step-title">VS Code Opens</div>
+            <div class="step-detail">Workspace file loaded &#8594; all extensions activated &#8594; admin mode</div>
+        </div>
+        <div class="chain-step active">
+            <div class="step-num">Step 05</div>
+            <div class="step-title">Agent Wakes</div>
+            <div class="step-detail">Reads BOOT.md &#8594; loads state &#8594; resumes sprint &#8594; autonomous</div>
+        </div>
+    </div>
+
+    <div class="card-grid cols-2" style="margin-top: 2rem;">
+        <div class="card">
+            <div class="tag tag-accent">Auto-Approve</div>
+            <h3>Every Button Eliminated</h3>
+            <p>18 separate VS Code settings configured for full autopilot: file edits, terminal commands, URL fetches, MCP connections, permissions &#8212; all auto-approved. The agent doesn't ask. It acts.</p>
+            <div class="code-block" style="margin: 1rem 0 0;">
+<span class="key">chat.tools.global.autoApprove</span>: <span class="string">true</span>
+<span class="key">chat.permissions.autopilot</span>: <span class="string">true</span>
+<span class="key">chat.tools.edits.autoApprove</span>: <span class="string">true</span>
+<span class="key">chat.tools.terminal.autoApprove</span>: <span class="string">true</span>
+<span class="key">chat.agent.maxRequests</span>: <span class="accent">100000</span>
+            </div>
+        </div>
+        <div class="card">
+            <div class="tag tag-green">Context Recovery</div>
+            <h3>Electric Shock Protocol</h3>
+            <p>Every session starts by reading <code>BOOT.md</code> &#8212; a structured context file that contains the full project state, sprint status, installed tools, and decision history. One paste restores the entire agent's working memory.</p>
+            <div class="code-block" style="margin: 1rem 0 0;">
+<span class="comment"># Agent first action after wake:</span>
+<span class="accent">1.</span> Read BOOT.md, MEMORY.md, INBOX.md
+<span class="accent">2.</span> Read .github/ai-state.json
+<span class="accent">3.</span> Check scripts/boot.log
+<span class="accent">4.</span> Report 3-line status &#8594; await orders
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════════════ AGENTS ═══════════════════ -->
+<section id="agents">
+    <div class="section-label">Multi-Agent System</div>
+    <h2>Five Agents. One Mission.</h2>
+    <p class="subtitle">Specialized AI agents with strict role boundaries and filesystem-scoped permissions. The coordinator orchestrates; specialists execute. No agent exceeds its role.</p>
+
+    <div class="agent-diagram">
+        <div class="layer-label">Human Layer</div>
+        <div class="agent-row">
+            <div class="agent-node human">&#128100; Human Operator<small>INBOX.md directives &#183; Async steering</small></div>
+        </div>
+        <div class="agent-arrow">&#9660;</div>
+
+        <div class="layer-label">Orchestration Layer</div>
+        <div class="agent-row">
+            <div class="agent-node coordinator">&#127919; Coordinator<small>Sprint planning &#183; Task decomposition &#183; Delegation</small></div>
+        </div>
+        <div class="agent-arrow">&#9660; &#9660; &#9660; &#9660;</div>
+
+        <div class="layer-label">Specialist Layer</div>
+        <div class="agent-row">
+            <div class="agent-node specialist">&#128208; Architect<small>System design &#183; Schemas</small></div>
+            <div class="agent-node specialist">&#128187; Coder<small>Implementation</small></div>
+            <div class="agent-node specialist">&#129514; Tester<small>Test suites &#183; Validation</small></div>
+            <div class="agent-node specialist">&#128269; Reviewer<small>Security &#183; Code quality</small></div>
+        </div>
+        <div class="agent-arrow">&#9660;</div>
+
+        <div class="layer-label">Artifact Layer</div>
+        <div class="agent-row">
+            <div class="agent-node artifact">&#128196; MEMORY.md<small>Knowledge base</small></div>
+            <div class="agent-node artifact">&#128202; ai-state.json<small>Sprint state</small></div>
+            <div class="agent-node artifact">&#128193; project/<small>Source code</small></div>
+            <div class="agent-node artifact">&#128256; Pull Requests<small>Gated output</small></div>
+        </div>
+    </div>
+
+    <div class="card-grid cols-2" style="margin-top: 2rem;">
+        <div class="card">
+            <div class="tag tag-accent">Orchestrator</div>
+            <h3>&#127919; Coordinator</h3>
+            <p>Owns the sprint backlog. Reads state, checks the human inbox, decomposes work into subtasks, and delegates. Never writes code &#8212; only plans and tracks. Enforces task lifecycle: <code>proposed &#8594; ready &#8594; in_progress &#8594; review &#8594; done</code>.</p>
+        </div>
+        <div class="card">
+            <div class="tag tag-cyan">Specialist</div>
+            <h3>&#128208; Architect</h3>
+            <p>Designs system architecture, API contracts, database schemas, and module boundaries. Outputs structured specs &#8212; never application code. Every decision includes a one-line rationale.</p>
+        </div>
+        <div class="card">
+            <div class="tag tag-cyan">Specialist</div>
+            <h3>&#128187; Coder</h3>
+            <p>Implements features following architect specs. Touches only <code>project/src/</code> and <code>project/migrations/</code>. One feature per task &#8212; no scope creep.</p>
+        </div>
+        <div class="card">
+            <div class="tag tag-cyan">Specialist</div>
+            <h3>&#129514; Tester</h3>
+            <p>Writes unit, integration, and acceptance tests. Reports results as structured JSON. Never modifies application code &#8212; reports failures back to the coordinator.</p>
+        </div>
+        <div class="card">
+            <div class="tag tag-cyan">Specialist</div>
+            <h3>&#128269; Reviewer</h3>
+            <p>Reviews for correctness, security (OWASP Top 10), and standards compliance. Structured findings with severity levels. Does not modify files.</p>
+        </div>
+        <div class="card">
+            <div class="tag tag-green">Key Principle</div>
+            <h3>&#128679; Strict Boundaries</h3>
+            <p>Each agent has a defined filesystem scope. The coder can't modify tests. The reviewer can't change code. The tester can't alter the backlog. This prevents cascading errors and makes behavior predictable.</p>
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════════════ HEARTBEAT ═══════════════════ -->
+<section id="heartbeat">
+    <div class="section-label">Execution Engine</div>
+    <h2>The Heartbeat</h2>
+    <p class="subtitle">Every hour, the system wakes. Reads state. Plans work. Delegates. Commits. The agents never stop. The codebase never sleeps.</p>
+
+    <div class="flow-container">
+        <div class="flow-box">&#9200; Cron<small>Every hour</small></div>
+        <div class="flow-arrow">&#8594;</div>
+        <div class="flow-box highlight">Load State<small>ai-state.json</small></div>
+        <div class="flow-arrow">&#8594;</div>
+        <div class="flow-box highlight">Check Inbox<small>INBOX.md</small></div>
+        <div class="flow-arrow">&#8594;</div>
+        <div class="flow-box">Plan<small>Decompose &amp; assign</small></div>
+        <div class="flow-arrow">&#8594;</div>
+        <div class="flow-box">Execute<small>Specialist agents</small></div>
+        <div class="flow-arrow">&#8594;</div>
+        <div class="flow-box glow-green">Commit<small>State + PR</small></div>
+    </div>
+
+    <div class="code-block">
+<span class="comment"># .github/workflows/ai-sprint.md</span>
+<span class="key">on</span>:
+  <span class="key">schedule</span>:
+    - <span class="key">cron</span>: <span class="string">"0 * * * *"</span>     <span class="comment"># every hour on the hour</span>
+  <span class="key">workflow_dispatch</span>:            <span class="comment"># manual trigger for testing</span>
+<span class="key">engine</span>: <span class="string">copilot</span>
+<span class="key">safe-outputs</span>:
+  <span class="key">pull-requests</span>:
+    <span class="key">allowed</span>: <span class="string">true</span>
+    <span class="key">label</span>: <span class="string">ai-generated</span>
+    <span class="key">max-changed-files</span>: <span class="accent">20</span>
+    </div>
+
+    <div class="card-grid cols-3" style="margin-top: 1.5rem;">
+        <div class="card">
+            <h3>&#128202; Structured Output</h3>
+            <p>Every heartbeat ends with a JSON status summary &#8212; tasks completed, in-progress, blocked. Machine-readable for dashboarding.</p>
+        </div>
+        <div class="card">
+            <h3>&#129689; Token Efficient</h3>
+            <p>File references over pasted content. JSON over prose. Minimal agent invocations per cycle. Each heartbeat costs only what it needs.</p>
+        </div>
+        <div class="card">
+            <h3>&#128274; Safe Outputs</h3>
+            <p>Creates PRs but never pushes to main or merges. Every change goes through a labeled PR gate for traceability.</p>
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════════════ SELF-HEALING ═══════════════════ -->
+<section id="self-healing">
+    <div class="section-label">Resilience</div>
+    <h2>Self-Healing Mechanisms</h2>
+    <p class="subtitle">When something breaks, the system diagnoses and fixes itself. Pre-defined recovery paths for every predictable failure mode.</p>
+
+    <div class="callout green">
+        <strong>Design Principle</strong>
+        Most failures in autonomous AI systems are predictable: state corruption, task deadlocks, stale context, spec drift. A self-healing system has recovery paths for all of them.
+    </div>
+
+    <div class="heal-grid" style="margin-top: 2rem;">
+        <div class="heal-card">
+            <h4>&#128260; State File Recovery</h4>
+            <p>If <code>ai-state.json</code> becomes malformed or a task is stuck in <code>in_progress</code> for multiple heartbeats, the coordinator detects the anomaly, resets the task, and logs the recovery.</p>
+            <span class="trigger">Stale task age > 3 heartbeats</span>
+        </div>
+        <div class="heal-card">
+            <h4>&#129514; Test-Driven Rollback</h4>
+            <p>When tests fail after implementation, the coordinator routes failure details back to the coder. If the fix fails twice, the task is reverted and re-queued with a redesign flag for the architect.</p>
+            <span class="trigger">Test failure after implementation</span>
+        </div>
+        <div class="heal-card">
+            <h4>&#128203; Spec-Code Reconciliation</h4>
+            <p>The reviewer detects implementation drift from architect specifications. The system generates a reconciliation task comparing spec against code and produces a targeted fix list.</p>
+            <span class="trigger">Review finding = "spec_drift"</span>
+        </div>
+        <div class="heal-card">
+            <h4>&#129529; Memory Compaction</h4>
+            <p>As <code>MEMORY.md</code> grows, older entries become noise. The coordinator periodically summarizes old entries, preserving key learnings while keeping the context window focused.</p>
+            <span class="trigger">MEMORY.md > token threshold</span>
+        </div>
+        <div class="heal-card">
+            <h4>&#128256; Conflict Resolution</h4>
+            <p>When two agent outputs conflict, the coordinator mediates: compares timestamps, checks which aligns with the latest directive, and routes the losing side for rework.</p>
+            <span class="trigger">Overlapping file modifications</span>
+        </div>
+        <div class="heal-card">
+            <h4>&#128680; Deadlock Detection</h4>
+            <p>If no task progresses for consecutive heartbeats, the coordinator diagnoses the root cause (circular dependency, unclear criteria) and redecomposes or escalates.</p>
+            <span class="trigger">Zero progress for 3+ heartbeats</span>
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════════════ PRODUCT ═══════════════════ -->
+<section id="product">
+    <div class="section-label">What The Agents Are Building</div>
+    <h2>Compliance Tooling Platform</h2>
+    <p class="subtitle">The agents aren't building a toy. They're building a multi-framework compliance automation platform &#8212; SOC2, HIPAA, GDPR &#8212; for mid-market companies who can't afford a Vanta but can't afford to not comply.</p>
+
+    <div class="metrics">
+        <div class="metric">
+            <div class="number">7</div>
+            <div class="label">Core Modules</div>
+        </div>
+        <div class="metric">
+            <div class="number">$400&#8211;1.2K</div>
+            <div class="label">Monthly Target</div>
+        </div>
+        <div class="metric">
+            <div class="number">25-30%</div>
+            <div class="label">Market CAGR</div>
+        </div>
+        <div class="metric">
+            <div class="number">70%+</div>
+            <div class="label">SMEs Lack Automation</div>
+        </div>
+    </div>
+
+    <div class="card-grid cols-3" style="margin-top: 2rem;">
+        <div class="card">
+            <div class="tag tag-accent">Module</div>
+            <h3>&#128274; IAM</h3>
+            <p>JWT authentication, SSO (SAML/OIDC), role-based access control, tenant isolation via PostgreSQL RLS.</p>
+        </div>
+        <div class="card">
+            <div class="tag tag-accent">Module</div>
+            <h3>&#128218; Framework Engine</h3>
+            <p>Frameworks-as-data: SOC2, HIPAA, GDPR loaded from structured definitions. Add new frameworks without code changes.</p>
+        </div>
+        <div class="card">
+            <div class="tag tag-accent">Module</div>
+            <h3>&#128203; Control Registry</h3>
+            <p>Map framework requirements to organizational controls. Track implementation status, ownership, and evidence links.</p>
+        </div>
+        <div class="card">
+            <div class="tag tag-accent">Module</div>
+            <h3>&#128279; Evidence Collector</h3>
+            <p>GitHub adapter (first), AWS adapter (month 4). Auto-collect commits, PRs, configs as compliance evidence.</p>
+        </div>
+        <div class="card">
+            <div class="tag tag-accent">Module</div>
+            <h3>&#128202; Assessment Engine</h3>
+            <p>Score compliance posture. Identify gaps. Generate actionable remediation plans with priority scoring.</p>
+        </div>
+        <div class="card">
+            <div class="tag tag-accent">Module</div>
+            <h3>&#128220; Audit Trail + Reports</h3>
+            <p>Immutable hash-chain audit log. Executive reports, gap analysis, evidence packages for auditors.</p>
+        </div>
+    </div>
+
+    <h3 style="margin-top: 3rem; margin-bottom: .5rem;">Sprint Roadmap</h3>
+    <p style="color: var(--text-dim); font-size: .9rem; margin-bottom: 1rem;">4-week proof-of-value, then 12-week MVP. The Coder agent flagged the original 90-day plan as 40% over-optimistic.</p>
+
+    <div class="timeline">
+        <div class="timeline-item active" data-step="1">
+            <h3>Week 1-2 &#8212; Foundation + Auth</h3>
+            <p>Monorepo scaffold with Turborepo/pnpm. PostgreSQL with RLS + tenant isolation tests on day 1. Fastify API skeleton. JWT auth with refresh tokens. Drizzle ORM schema.</p>
+        </div>
+        <div class="timeline-item" data-step="2">
+            <h3>Week 3 &#8212; SOC2 Control Registry</h3>
+            <p>SOC2 Type II framework data seeded. Control CRUD. Evidence collection from GitHub adapter. Compliance scoring.</p>
+        </div>
+        <div class="timeline-item" data-step="3">
+            <h3>Week 4 &#8212; Dashboard + Deploy</h3>
+            <p>React dashboard with compliance posture view. Evidence viewer. Gap report. Deploy to staging. Proof-of-value complete.</p>
+        </div>
+        <div class="timeline-item" data-step="4">
+            <h3>Weeks 5-16 &#8212; Full MVP</h3>
+            <p>HIPAA/GDPR frameworks. AWS evidence adapter. Assessment workflows. Multi-tenant onboarding. Production deployment.</p>
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════════════ CONCEPTS ═══════════════════ -->
+<section id="concepts">
+    <div class="section-label">Agentic Programming Patterns</div>
+    <h2>Key Concepts Explored</h2>
+    <p class="subtitle">This project is a working laboratory for modern agentic programming patterns. Each concept is implemented and tested in the running system.</p>
+
+    <div class="data-table-wrap">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Concept</th>
+                    <th>What It Means</th>
+                    <th>How It's Implemented</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Closed-Loop Autonomy</strong></td>
+                    <td>The system operates end-to-end without human approval gates</td>
+                    <td>Auto-login &#8594; boot script &#8594; Docker &#8594; VS Code &#8594; agent wake. 18 auto-approve settings. Zero buttons.</td>
+                </tr>
+                <tr>
+                    <td><strong>Persistent Memory</strong></td>
+                    <td>Agents retain knowledge across invocations without conversation history</td>
+                    <td><code>MEMORY.md</code> for knowledge, <code>ai-state.json</code> for state, <code>BOOT.md</code> for context restoration</td>
+                </tr>
+                <tr>
+                    <td><strong>Agent Specialization</strong></td>
+                    <td>Each agent has a narrow role with filesystem-scoped permissions</td>
+                    <td>5 agents: coordinator plans, architect designs, coder implements, tester validates, reviewer audits</td>
+                </tr>
+                <tr>
+                    <td><strong>Self-Healing Recovery</strong></td>
+                    <td>Pre-defined recovery paths for predictable failure modes</td>
+                    <td>State repair, test rollback, spec reconciliation, deadlock breaking, memory compaction</td>
+                </tr>
+                <tr>
+                    <td><strong>Structured Handoffs</strong></td>
+                    <td>Agents communicate through typed JSON contracts, not free-form text</td>
+                    <td>Every output: task_id, files_modified, verdict, findings &#8212; deterministic routing</td>
+                </tr>
+                <tr>
+                    <td><strong>Async Human Control</strong></td>
+                    <td>Humans steer without being in the loop for every decision</td>
+                    <td><code>INBOX.md</code> with priority levels (critical/high/normal/low) checked every heartbeat</td>
+                </tr>
+                <tr>
+                    <td><strong>Electric Shock Protocol</strong></td>
+                    <td>Full context restoration from cold start in a single file read</td>
+                    <td><code>BOOT.md</code> contains project identity, sprint state, tool inventory, and action protocol</td>
+                </tr>
+                <tr>
+                    <td><strong>Token Efficiency</strong></td>
+                    <td>Minimize LLM consumption through references and structured output</td>
+                    <td>File references via <code>#file:path</code>, JSON responses, minimal agent invocations per cycle</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<!-- ═══════════════════ TECH STACK ═══════════════════ -->
+<section id="stack">
+    <div class="section-label">Implementation</div>
+    <h2>Technology Stack</h2>
+    <p class="subtitle">Enterprise-grade choices optimized for type safety, fast iteration, and compliance readiness.</p>
+
+    <div class="card-grid cols-4">
+        <div class="card" style="text-align:center;">
+            <div style="font-size:2rem;margin-bottom:.5rem;">&#9898;</div>
+            <h3 style="justify-content:center;">TypeScript</h3>
+            <p>Strict mode. No <code>any</code>. Named exports. Result pattern.</p>
+        </div>
+        <div class="card" style="text-align:center;">
+            <div style="font-size:2rem;margin-bottom:.5rem;">&#9889;</div>
+            <h3 style="justify-content:center;">Fastify</h3>
+            <p>3x faster than Express. Schema-validated routes. Plugin architecture.</p>
+        </div>
+        <div class="card" style="text-align:center;">
+            <div style="font-size:2rem;margin-bottom:.5rem;">&#128024;</div>
+            <h3 style="justify-content:center;">PostgreSQL 16+</h3>
+            <p>RLS multi-tenancy. <code>tenant_id</code> on every row. Drizzle ORM.</p>
+        </div>
+        <div class="card" style="text-align:center;">
+            <div style="font-size:2rem;margin-bottom:.5rem;">&#9883;</div>
+            <h3 style="justify-content:center;">React 19+</h3>
+            <p>Server components. TypeScript throughout. Tailwind CSS.</p>
+        </div>
+        <div class="card" style="text-align:center;">
+            <div style="font-size:2rem;margin-bottom:.5rem;">&#129514;</div>
+            <h3 style="justify-content:center;">Vitest + Playwright</h3>
+            <p>Fast unit tests. Browser E2E. Tenant isolation on day 1.</p>
+        </div>
+        <div class="card" style="text-align:center;">
+            <div style="font-size:2rem;margin-bottom:.5rem;">&#128051;</div>
+            <h3 style="justify-content:center;">Docker</h3>
+            <p>Multi-stage builds. Dev/prod parity. Cloud-agnostic.</p>
+        </div>
+        <div class="card" style="text-align:center;">
+            <div style="font-size:2rem;margin-bottom:.5rem;">&#129302;</div>
+            <h3 style="justify-content:center;">GitHub Copilot</h3>
+            <p>Agentic Workflows engine. Custom agents. Scheduled heartbeat.</p>
+        </div>
+        <div class="card" style="text-align:center;">
+            <div style="font-size:2rem;margin-bottom:.5rem;">&#128274;</div>
+            <h3 style="justify-content:center;">Security First</h3>
+            <p>OWASP Top 10. Zod validation. PII marking. Pino audit logs.</p>
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════════════ FOOTER ═══════════════════ -->
+<footer>
+    <p>Built by <strong>Scott Bowden</strong> &#8212; with an autonomous AI team that doesn't sleep</p>
+    <p style="margin-top:.5rem;">
+        <a href="https://github.com/sbowden94/agentic-showcase">View Source</a>
+    </p>
+    <p class="manifesto-small">"The future is already here &#8212; it's just not evenly distributed." We're working on the distribution part.</p>
+</footer>
+
+<!-- ── Smooth scroll + active nav ── -->
+<script>
+    document.querySelectorAll('nav a').forEach(link => {
+        link.addEventListener('click', e => {
+            const href = link.getAttribute('href');
+            if (href && href.startsWith('#')) {
+                e.preventDefault();
+                const target = document.querySelector(href);
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    history.pushState(null, '', href);
+                }
+            }
+        });
+    });
+
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('nav a[href^="#"]');
+
+    function updateActiveNav() {
+        let current = '';
+        sections.forEach(section => {
+            const top = section.offsetTop - 100;
+            if (window.scrollY >= top) current = section.getAttribute('id');
+        });
+        navLinks.forEach(link => {
+            link.classList.toggle('active', link.getAttribute('href') === '#' + current);
+        });
+    }
+
+    window.addEventListener('scroll', updateActiveNav, { passive: true });
+    updateActiveNav();
+</script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Agentic Workflows — Project Showcase | Scott Bowden</title>
     <meta name="description" content="An enterprise-grade autonomous AI development system built with GitHub Copilot Agentic Workflows — featuring multi-agent orchestration, self-healing mechanisms, and continuous autonomous progress.">
     <style>
