@@ -1,0 +1,1041 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agentic Workflows — Project Showcase | Scott Bowden</title>
+    <meta name="description" content="An enterprise-grade autonomous AI development system built with GitHub Copilot Agentic Workflows — featuring multi-agent orchestration, self-healing mechanisms, and continuous autonomous progress.">
+    <style>
+        :root {
+            --primary: #0f172a;
+            --primary-mid: #1e293b;
+            --accent: #6366f1;
+            --accent-light: #818cf8;
+            --accent-glow: rgba(99,102,241,.15);
+            --green: #10b981;
+            --green-bg: #ecfdf5;
+            --amber: #f59e0b;
+            --amber-bg: #fffbeb;
+            --red: #ef4444;
+            --red-bg: #fef2f2;
+            --cyan: #06b6d4;
+            --cyan-bg: #ecfeff;
+            --gray-50: #f8fafc;
+            --gray-100: #f1f5f9;
+            --gray-200: #e2e8f0;
+            --gray-300: #cbd5e1;
+            --gray-400: #94a3b8;
+            --gray-500: #64748b;
+            --gray-600: #475569;
+            --gray-700: #334155;
+            --gray-800: #1e293b;
+            --gray-900: #0f172a;
+            --radius: 12px;
+            --shadow: 0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.06);
+            --shadow-md: 0 4px 6px rgba(0,0,0,.07), 0 2px 4px rgba(0,0,0,.06);
+            --shadow-lg: 0 10px 25px rgba(0,0,0,.1), 0 4px 10px rgba(0,0,0,.06);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: var(--gray-50);
+            color: var(--gray-900);
+            line-height: 1.7;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* ── NAV ── */
+        nav {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(15,23,42,.95);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255,255,255,.08);
+            padding: 0 2rem;
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+        nav .brand {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #fff;
+            padding: 1rem 0;
+            white-space: nowrap;
+            letter-spacing: .3px;
+        }
+        nav .brand span { color: var(--accent-light); }
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: .125rem;
+            overflow-x: auto;
+        }
+        nav a {
+            color: rgba(255,255,255,.6);
+            text-decoration: none;
+            padding: .75rem .875rem;
+            font-size: .8rem;
+            font-weight: 500;
+            border-radius: 8px;
+            transition: all .2s;
+            white-space: nowrap;
+        }
+        nav a:hover, nav a.active {
+            color: #fff;
+            background: rgba(99,102,241,.2);
+        }
+
+        /* ── HERO ── */
+        .hero {
+            background: linear-gradient(135deg, var(--primary) 0%, #1a1a4e 50%, #2d1b69 100%);
+            color: #fff;
+            padding: 5rem 2rem 4rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 30% 50%, rgba(99,102,241,.08) 0%, transparent 50%),
+                        radial-gradient(circle at 70% 80%, rgba(6,182,212,.06) 0%, transparent 40%);
+            pointer-events: none;
+        }
+        .hero > * { position: relative; z-index: 1; }
+        .hero-eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: .5rem;
+            font-size: .8rem;
+            font-weight: 600;
+            color: var(--accent-light);
+            background: rgba(99,102,241,.12);
+            border: 1px solid rgba(99,102,241,.25);
+            padding: .4rem 1rem;
+            border-radius: 100px;
+            margin-bottom: 1.5rem;
+            letter-spacing: .5px;
+            text-transform: uppercase;
+        }
+        .hero h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            line-height: 1.15;
+            margin-bottom: 1rem;
+            letter-spacing: -.02em;
+        }
+        .hero h1 .gradient {
+            background: linear-gradient(135deg, var(--accent-light), var(--cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .hero p {
+            font-size: 1.15rem;
+            color: rgba(255,255,255,.7);
+            max-width: 680px;
+            margin: 0 auto 2rem;
+        }
+        .hero-meta {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+            font-size: .85rem;
+            color: rgba(255,255,255,.5);
+        }
+        .hero-meta strong { color: rgba(255,255,255,.9); }
+
+        /* ── SECTIONS ── */
+        section {
+            max-width: 1120px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+        section:target { scroll-margin-top: 70px; }
+        .section-label {
+            text-transform: uppercase;
+            font-size: .7rem;
+            font-weight: 700;
+            letter-spacing: 2.5px;
+            color: var(--accent);
+            margin-bottom: .5rem;
+        }
+        section > h2 {
+            font-size: 1.85rem;
+            font-weight: 800;
+            margin-bottom: .5rem;
+            color: var(--primary);
+            letter-spacing: -.01em;
+        }
+        section > .subtitle {
+            color: var(--gray-500);
+            margin-bottom: 2.5rem;
+            font-size: 1.05rem;
+            max-width: 720px;
+        }
+
+        /* ── CARDS ── */
+        .card-grid {
+            display: grid;
+            gap: 1.25rem;
+        }
+        .card-grid.cols-2 { grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); }
+        .card-grid.cols-3 { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+        .card-grid.cols-4 { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+
+        .card {
+            background: #fff;
+            border-radius: var(--radius);
+            padding: 1.75rem;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--gray-200);
+            transition: transform .2s, box-shadow .2s;
+        }
+        .card:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+        .card h3 {
+            font-size: 1.05rem;
+            font-weight: 700;
+            margin-bottom: .5rem;
+            display: flex;
+            align-items: center;
+            gap: .5rem;
+            color: var(--primary);
+        }
+        .card p, .card li { font-size: .9rem; color: var(--gray-600); line-height: 1.65; }
+        .card ul { padding-left: 1.25rem; margin-top: .5rem; }
+        .card ul li { margin-bottom: .3rem; }
+
+        .card .icon-ring {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1rem;
+            flex-shrink: 0;
+            margin-bottom: .75rem;
+        }
+        .icon-ring.purple { background: var(--accent-glow); }
+        .icon-ring.green { background: var(--green-bg); }
+        .icon-ring.amber { background: var(--amber-bg); }
+        .icon-ring.cyan { background: var(--cyan-bg); }
+        .icon-ring.red { background: var(--red-bg); }
+
+        .tag {
+            display: inline-block;
+            font-size: .65rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: .2rem .6rem;
+            border-radius: 6px;
+            margin-bottom: .5rem;
+        }
+        .tag-purple { background: var(--accent-glow); color: var(--accent); }
+        .tag-green { background: var(--green-bg); color: var(--green); }
+        .tag-amber { background: var(--amber-bg); color: var(--amber); }
+        .tag-cyan { background: var(--cyan-bg); color: var(--cyan); }
+
+        /* ── FLOW DIAGRAM ── */
+        .flow-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: .5rem;
+            flex-wrap: wrap;
+            margin: 2rem 0;
+        }
+        .flow-box {
+            background: #fff;
+            border: 2px solid var(--gray-200);
+            border-radius: var(--radius);
+            padding: .875rem 1.25rem;
+            text-align: center;
+            font-size: .82rem;
+            font-weight: 600;
+            min-width: 120px;
+            box-shadow: var(--shadow);
+            color: var(--gray-700);
+        }
+        .flow-box small { display: block; font-weight: 400; font-size: .72rem; color: var(--gray-400); margin-top: .2rem; }
+        .flow-box.highlight { border-color: var(--accent); background: var(--accent-glow); color: var(--accent); }
+        .flow-box.green { border-color: var(--green); background: var(--green-bg); color: #065f46; }
+        .flow-arrow { font-size: 1.25rem; color: var(--gray-400); }
+
+        /* ── CALLOUT ── */
+        .callout {
+            background: var(--accent-glow);
+            border-left: 4px solid var(--accent);
+            border-radius: 0 var(--radius) var(--radius) 0;
+            padding: 1.25rem 1.5rem;
+            margin: 1.5rem 0;
+            font-size: .9rem;
+            color: var(--gray-700);
+        }
+        .callout strong { display: block; margin-bottom: .25rem; color: var(--primary); }
+        .callout.green { background: var(--green-bg); border-left-color: var(--green); }
+        .callout.amber { background: var(--amber-bg); border-left-color: var(--amber); }
+
+        /* ── AGENT DIAGRAM ── */
+        .agent-diagram {
+            background: #fff;
+            border-radius: var(--radius);
+            padding: 2.5rem;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--gray-200);
+            margin: 2rem 0;
+            overflow-x: auto;
+        }
+        .agent-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: .75rem;
+            flex-wrap: wrap;
+            margin-bottom: 1rem;
+        }
+        .agent-row:last-child { margin-bottom: 0; }
+        .agent-node {
+            border: 2px solid var(--gray-200);
+            border-radius: var(--radius);
+            padding: .75rem 1.25rem;
+            text-align: center;
+            font-size: .8rem;
+            font-weight: 600;
+            min-width: 130px;
+            background: #fff;
+            box-shadow: var(--shadow);
+        }
+        .agent-node small {
+            display: block;
+            font-weight: 400;
+            font-size: .68rem;
+            color: var(--gray-400);
+            margin-top: .2rem;
+        }
+        .agent-node.coordinator { border-color: var(--accent); background: var(--accent-glow); min-width: 200px; padding: 1.25rem; font-size: .9rem; }
+        .agent-node.specialist { border-color: var(--cyan); background: var(--cyan-bg); }
+        .agent-node.artifact { border-color: var(--green); background: var(--green-bg); }
+        .agent-node.human { border-color: var(--amber); background: var(--amber-bg); }
+        .agent-arrow { text-align: center; font-size: 1.4rem; color: var(--gray-400); margin: .5rem 0; }
+        .agent-connector { font-size: 1.2rem; color: var(--gray-400); }
+
+        /* ── SELF-HEALING SECTION ── */
+        .heal-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.25rem;
+            margin: 2rem 0;
+        }
+        .heal-card {
+            background: #fff;
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--gray-200);
+            border-top: 3px solid var(--green);
+            transition: transform .2s, box-shadow .2s;
+        }
+        .heal-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); }
+        .heal-card h4 {
+            font-size: .95rem;
+            font-weight: 700;
+            margin-bottom: .4rem;
+            color: var(--primary);
+        }
+        .heal-card p { font-size: .85rem; color: var(--gray-600); }
+        .heal-card .trigger {
+            display: inline-block;
+            margin-top: .75rem;
+            font-size: .72rem;
+            font-weight: 600;
+            color: var(--green);
+            background: var(--green-bg);
+            padding: .25rem .6rem;
+            border-radius: 6px;
+            text-transform: uppercase;
+            letter-spacing: .5px;
+        }
+
+        /* ── TABLE ── */
+        .data-table-wrap { overflow-x: auto; margin: 1.5rem 0; }
+        table.data-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: .85rem;
+            background: #fff;
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+        table.data-table thead { background: var(--primary); color: #fff; }
+        table.data-table th {
+            padding: .8rem 1rem;
+            text-align: left;
+            font-weight: 600;
+            font-size: .72rem;
+            text-transform: uppercase;
+            letter-spacing: .5px;
+        }
+        table.data-table td {
+            padding: .65rem 1rem;
+            border-bottom: 1px solid var(--gray-100);
+            color: var(--gray-700);
+        }
+        table.data-table tbody tr:hover { background: var(--gray-50); }
+        table.data-table code {
+            background: var(--gray-100);
+            padding: .1rem .35rem;
+            border-radius: 4px;
+            font-size: .78rem;
+            font-family: 'Cascadia Code', 'Fira Code', Consolas, monospace;
+        }
+
+        /* ── METRICS ── */
+        .metrics {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+        .metric {
+            background: #fff;
+            border-radius: var(--radius);
+            padding: 1.5rem 1.25rem;
+            text-align: center;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--gray-200);
+        }
+        .metric .number {
+            font-size: 1.75rem;
+            font-weight: 800;
+            color: var(--accent);
+        }
+        .metric .label {
+            font-size: .78rem;
+            color: var(--gray-500);
+            margin-top: .35rem;
+            line-height: 1.4;
+        }
+
+        /* ── CODE BLOCK ── */
+        .code-block {
+            background: var(--primary);
+            color: #e2e8f0;
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            font-family: 'Cascadia Code', 'Fira Code', Consolas, monospace;
+            font-size: .82rem;
+            line-height: 1.75;
+            overflow-x: auto;
+            margin: 1.25rem 0;
+            box-shadow: var(--shadow-md);
+        }
+        .code-block .comment { color: var(--gray-500); }
+        .code-block .key { color: var(--cyan); }
+        .code-block .string { color: var(--green); }
+        .code-block .accent { color: var(--accent-light); }
+
+        /* ── TIMELINE ── */
+        .timeline { position: relative; padding-left: 2.5rem; margin-top: 1.5rem; }
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: .8rem;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(to bottom, var(--accent), var(--green));
+            border-radius: 2px;
+        }
+        .timeline-item {
+            position: relative;
+            margin-bottom: 2rem;
+        }
+        .timeline-item::before {
+            content: attr(data-step);
+            position: absolute;
+            left: -2.5rem;
+            top: .15rem;
+            width: 1.75rem;
+            height: 1.75rem;
+            background: var(--accent);
+            color: #fff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: .72rem;
+            font-weight: 700;
+            z-index: 1;
+        }
+        .timeline-item h3 { font-size: 1rem; color: var(--primary); margin-bottom: .25rem; font-weight: 700; }
+        .timeline-item p { font-size: .88rem; color: var(--gray-600); }
+
+        /* ── FOOTER ── */
+        footer {
+            background: var(--primary);
+            color: rgba(255,255,255,.5);
+            text-align: center;
+            padding: 2.5rem 2rem;
+            margin-top: 3rem;
+            font-size: .82rem;
+        }
+        footer a { color: var(--accent-light); text-decoration: none; }
+        footer a:hover { text-decoration: underline; }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2rem; }
+            .hero-meta { gap: 1rem; }
+            nav ul { gap: 0; }
+            nav a { padding: .65rem .5rem; font-size: .72rem; }
+            section { padding: 2.5rem 1rem; }
+            .card-grid.cols-3, .card-grid.cols-4 { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ═══════════════════ NAV ═══════════════════ -->
+<nav>
+    <div class="brand">Scott Bowden <span>//</span> Agentic Workflows</div>
+    <ul>
+        <li><a href="#overview">Overview</a></li>
+        <li><a href="#agents">Agent Architecture</a></li>
+        <li><a href="#heartbeat">Heartbeat System</a></li>
+        <li><a href="#self-healing">Self-Healing</a></li>
+        <li><a href="#inbox">Human-in-the-Loop</a></li>
+        <li><a href="#concepts">Key Concepts</a></li>
+        <li><a href="#scope">Project Scope</a></li>
+        <li><a href="#stack">Tech Stack</a></li>
+    </ul>
+</nav>
+
+<!-- ═══════════════════ HERO ═══════════════════ -->
+<div class="hero">
+    <div class="hero-eyebrow">⚡ GitHub Copilot Agentic Workflows · 2026</div>
+    <h1>Autonomous AI Teams<br>That <span class="gradient">Build Software 24/7</span></h1>
+    <p>A production-ready multi-agent system where a coordinator and specialist AI agents collaborate autonomously through the filesystem — advancing an enterprise application around the clock with built-in self-healing, human steering, and zero idle time.</p>
+    <div class="hero-meta">
+        <span><strong>5</strong> Custom Agents</span>
+        <span><strong>24/7</strong> Heartbeat Loop</span>
+        <span><strong>Self-Healing</strong> Error Recovery</span>
+        <span><strong>Human Inbox</strong> Steering</span>
+    </div>
+</div>
+
+<!-- ═══════════════════ OVERVIEW ═══════════════════ -->
+<section id="overview">
+    <div class="section-label">The Concept</div>
+    <h2>What Is This Project?</h2>
+    <p class="subtitle">An experiment in persistent autonomous software development — where AI agents don't just respond to prompts, they maintain continuous forward momentum on an enterprise codebase.</p>
+
+    <div class="metrics">
+        <div class="metric">
+            <div class="number">5</div>
+            <div class="label">Specialized AI Agents</div>
+        </div>
+        <div class="metric">
+            <div class="number">1hr</div>
+            <div class="label">Heartbeat Interval</div>
+        </div>
+        <div class="metric">
+            <div class="number">∞</div>
+            <div class="label">Autonomous Sprint Cycles</div>
+        </div>
+        <div class="metric">
+            <div class="number">&lt;300</div>
+            <div class="label">Lines per AI-Generated PR</div>
+        </div>
+    </div>
+
+    <div class="callout">
+        <strong>Core Thesis</strong>
+        Traditional AI-assisted coding is reactive — you prompt, it responds. This system inverts that model: the AI team runs continuously on a cron schedule, reads its own state, picks the next task, delegates to specialists, and produces small focused pull requests. Humans steer by dropping directives into an inbox file. The AI does the rest.
+    </div>
+
+    <div class="card-grid cols-3" style="margin-top: 2rem;">
+        <div class="card">
+            <div class="icon-ring purple">🧠</div>
+            <h3>Persistent Memory</h3>
+            <p>Agents maintain state across runs via <code>ai-state.json</code> and <code>MEMORY.md</code> — structured JSON for machine state, markdown for knowledge accumulation. No context window wasted on re-discovery.</p>
+        </div>
+        <div class="card">
+            <div class="icon-ring green">🔄</div>
+            <h3>Continuous Progress</h3>
+            <p>Every hour, the coordinator wakes up, reads the current state, and makes concrete forward progress — designing schemas, writing code, running tests, or reviewing PRs. No human trigger needed.</p>
+        </div>
+        <div class="card">
+            <div class="icon-ring cyan">🛡️</div>
+            <h3>Safe by Design</h3>
+            <p>Agents create PRs but never merge them. Each PR is labeled, size-limited, and requires human approval. The system is autonomous but never unsupervised.</p>
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════════════ AGENT ARCHITECTURE ═══════════════════ -->
+<section id="agents">
+    <div class="section-label">Multi-Agent System</div>
+    <h2>Agent Architecture</h2>
+    <p class="subtitle">Five specialized agents, each with strict boundaries and clear responsibilities. The coordinator orchestrates; specialists execute. No agent exceeds its role.</p>
+
+    <!-- Diagram -->
+    <div class="agent-diagram">
+        <p style="text-align:center;font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:2px;color:var(--gray-400);margin-bottom:1rem;">Human Layer</p>
+        <div class="agent-row">
+            <div class="agent-node human">👤 Human Operator<small>INBOX.md directives</small></div>
+        </div>
+        <div class="agent-arrow">▼</div>
+
+        <p style="text-align:center;font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:2px;color:var(--gray-400);margin-bottom:1rem;">Orchestration Layer</p>
+        <div class="agent-row">
+            <div class="agent-node coordinator">🎯 Coordinator Agent<small>Task decomposition · Delegation · State management</small></div>
+        </div>
+        <div class="agent-arrow">▼ ▼ ▼ ▼</div>
+
+        <p style="text-align:center;font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:2px;color:var(--gray-400);margin-bottom:1rem;">Specialist Layer</p>
+        <div class="agent-row">
+            <div class="agent-node specialist">📐 Architect<small>System design · Schemas · ADRs</small></div>
+            <div class="agent-node specialist">💻 Coder<small>Implementation · Bug fixes</small></div>
+            <div class="agent-node specialist">🧪 Tester<small>Test suites · Validation</small></div>
+            <div class="agent-node specialist">🔍 Reviewer<small>Code review · Security audit</small></div>
+        </div>
+        <div class="agent-arrow">▼</div>
+
+        <p style="text-align:center;font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:2px;color:var(--gray-400);margin-bottom:1rem;">Artifact Layer</p>
+        <div class="agent-row">
+            <div class="agent-node artifact">📄 MEMORY.md<small>Knowledge base</small></div>
+            <div class="agent-node artifact">📊 ai-state.json<small>Sprint state</small></div>
+            <div class="agent-node artifact">📁 project/<small>Source code</small></div>
+            <div class="agent-node artifact">🔀 Pull Requests<small>Human-gated output</small></div>
+        </div>
+    </div>
+
+    <!-- Agent details -->
+    <div class="card-grid cols-2" style="margin-top: 2rem;">
+        <div class="card">
+            <div class="tag tag-purple">Orchestrator</div>
+            <h3>🎯 Coordinator</h3>
+            <p>Owns the sprint backlog. Reads state, checks the human inbox, decomposes work into subtasks, and delegates. Never writes code — only plans and tracks. Enforces the task lifecycle: <code>proposed → ready → in_progress → review → done</code>.</p>
+        </div>
+        <div class="card">
+            <div class="tag tag-cyan">Specialist</div>
+            <h3>📐 Architect</h3>
+            <p>Designs system architecture, API contracts, database schemas, and module boundaries. Outputs structured specs (OpenAPI, SQL, JSON Schema) — never application code. Every decision includes a one-line rationale.</p>
+        </div>
+        <div class="card">
+            <div class="tag tag-cyan">Specialist</div>
+            <h3>💻 Coder</h3>
+            <p>Implements features following architect specs. Edits only <code>project/src/</code> and <code>project/migrations/</code>. Reads surrounding code before writing. One feature per task — no scope creep.</p>
+        </div>
+        <div class="card">
+            <div class="tag tag-cyan">Specialist</div>
+            <h3>🧪 Tester</h3>
+            <p>Writes unit, integration, and acceptance tests. Reports results as structured JSON. Never modifies application code — reports failures back to the coordinator for delegation.</p>
+        </div>
+        <div class="card">
+            <div class="tag tag-cyan">Specialist</div>
+            <h3>🔍 Reviewer</h3>
+            <p>Reviews for correctness, security (OWASP Top 10), and standards compliance. Returns structured findings with severity levels. Does not modify files unless explicitly authorized.</p>
+        </div>
+        <div class="card">
+            <div class="tag tag-green">Key Principle</div>
+            <h3>🚧 Strict Boundaries</h3>
+            <p>Each agent has a defined filesystem scope and responsibility boundary. The coder can't modify tests. The reviewer can't change code. The tester can't alter the backlog. This prevents cascading errors and makes agent behavior predictable.</p>
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════════════ HEARTBEAT ═══════════════════ -->
+<section id="heartbeat">
+    <div class="section-label">Execution Engine</div>
+    <h2>The Heartbeat System</h2>
+    <p class="subtitle">A GitHub Actions workflow fires every hour, invoking the coordinator agent. Each cycle reads state, plans work, delegates, and commits progress. The system never stops.</p>
+
+    <div class="flow-container">
+        <div class="flow-box">⏰ Cron<small>Every hour</small></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-box highlight">Load State<small>ai-state.json</small></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-box highlight">Check Inbox<small>INBOX.md</small></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-box">Plan &amp; Delegate<small>Pick next task</small></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-box">Execute<small>Specialist agents</small></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-box green">Commit<small>Update state + PR</small></div>
+    </div>
+
+    <div class="code-block">
+<span class="comment"># .github/workflows/ai-sprint.md (YAML frontmatter)</span>
+<span class="key">on</span>:
+  <span class="key">schedule</span>:
+    - <span class="key">cron</span>: <span class="string">"0 * * * *"</span>     <span class="comment"># every hour on the hour</span>
+  <span class="key">workflow_dispatch</span>:            <span class="comment"># manual trigger for testing</span>
+<span class="key">engine</span>: <span class="string">copilot</span>
+<span class="key">safe-outputs</span>:
+  <span class="key">pull-requests</span>:
+    <span class="key">allowed</span>: <span class="string">true</span>
+    <span class="key">label</span>: <span class="string">ai-generated</span>
+    <span class="key">title-prefix</span>: <span class="string">"[ai-sprint]"</span>
+    <span class="key">max-changed-files</span>: <span class="accent">20</span>
+    </div>
+
+    <div class="card-grid cols-3" style="margin-top: 1.5rem;">
+        <div class="card">
+            <h3>📊 Structured Output</h3>
+            <p>Every heartbeat ends with a JSON status summary — tasks completed, in-progress, blocked, and PRs created. Machine-readable for dashboarding and monitoring.</p>
+        </div>
+        <div class="card">
+            <h3>🪙 Token Efficiency</h3>
+            <p>Agents reference files with <code>#file:path</code> instead of pasting content. Structured JSON over prose. Minimal agent invocations per cycle. Each heartbeat costs only what it needs.</p>
+        </div>
+        <div class="card">
+            <h3>🔒 Safe Outputs</h3>
+            <p>The workflow can only create PRs — never push directly to main, never merge, never delete. Every change goes through the PR gate with the <code>ai-generated</code> label for easy filtering.</p>
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════════════ SELF-HEALING ═══════════════════ -->
+<section id="self-healing">
+    <div class="section-label">Deep Dive</div>
+    <h2>Self-Healing Mechanisms</h2>
+    <p class="subtitle">The most interesting pattern in this system: autonomous error detection and recovery without human intervention. When something breaks, the system diagnoses and fixes itself.</p>
+
+    <div class="callout green">
+        <strong>Design Principle</strong>
+        A self-healing system doesn't just detect errors — it has pre-defined recovery paths for common failure modes. The key insight is that most failures in autonomous AI systems are predictable and recoverable: state corruption, task conflicts, stale context, and drift from specifications.
+    </div>
+
+    <h3 style="margin-top: 2rem; margin-bottom: 1rem; color: var(--primary);">Self-Healing Architecture</h3>
+
+    <div class="agent-diagram">
+        <div class="flow-container" style="flex-wrap: nowrap; gap: .5rem;">
+            <div style="display:flex;flex-direction:column;gap:.5rem;min-width:130px;">
+                <div class="flow-box" style="font-size:.75rem; border-color: var(--red);">State Corruption</div>
+                <div class="flow-box" style="font-size:.75rem; border-color: var(--amber);">Task Deadlock</div>
+                <div class="flow-box" style="font-size:.75rem; border-color: var(--accent);">Spec Drift</div>
+                <div class="flow-box" style="font-size:.75rem; border-color: var(--cyan);">Test Failure</div>
+                <div class="flow-box" style="font-size:.75rem; border-color: var(--gray-400);">Stale Context</div>
+            </div>
+            <div class="flow-arrow" style="font-size:2rem;">→</div>
+            <div class="flow-box highlight" style="min-width:180px; padding:1.5rem;">Self-Healing<br>Engine<small>Detect → Diagnose → Recover</small></div>
+            <div class="flow-arrow" style="font-size:2rem;">→</div>
+            <div style="display:flex;flex-direction:column;gap:.5rem;min-width:130px;">
+                <div class="flow-box green" style="font-size:.75rem;">State Repaired ✓</div>
+                <div class="flow-box green" style="font-size:.75rem;">Task Unblocked ✓</div>
+                <div class="flow-box green" style="font-size:.75rem;">Spec Reconciled ✓</div>
+                <div class="flow-box green" style="font-size:.75rem;">Code Patched ✓</div>
+                <div class="flow-box green" style="font-size:.75rem;">Context Refreshed ✓</div>
+            </div>
+        </div>
+    </div>
+
+    <h3 style="margin-top: 2.5rem; margin-bottom: 1rem; color: var(--primary);">Recovery Mechanisms</h3>
+
+    <div class="heal-grid">
+        <div class="heal-card">
+            <h4>🔄 State File Recovery</h4>
+            <p>If <code>ai-state.json</code> becomes malformed or inconsistent (e.g., a task stuck in <code>in_progress</code> for multiple heartbeats), the coordinator detects the anomaly, resets the task to <code>ready</code>, and logs the recovery in <code>decisions_log</code>. No manual intervention needed.</p>
+            <span class="trigger">Trigger: Stale task age > 3 heartbeats</span>
+        </div>
+        <div class="heal-card">
+            <h4>🧪 Test-Driven Rollback</h4>
+            <p>When the tester agent reports failures after a coder implementation, the coordinator doesn't just flag it — it routes the failure details back to the coder with specific instructions to fix. If the fix fails twice, the task is reverted and re-queued with a redesign flag for the architect.</p>
+            <span class="trigger">Trigger: Test failure after implementation</span>
+        </div>
+        <div class="heal-card">
+            <h4>📋 Spec-Code Reconciliation</h4>
+            <p>The reviewer agent detects when implementation drifts from architect specifications. Rather than just flagging it, the system generates a reconciliation task that compares the spec (OpenAPI, schema) against the actual code and produces a targeted fix list.</p>
+            <span class="trigger">Trigger: Review finding type = "spec_drift"</span>
+        </div>
+        <div class="heal-card">
+            <h4>🧹 Memory Compaction</h4>
+            <p>As <code>MEMORY.md</code> grows, older entries become noise. The coordinator periodically summarizes old sprint entries into a compact "historical decisions" section, preserving key learnings while keeping the active context window focused on current work.</p>
+            <span class="trigger">Trigger: MEMORY.md > token threshold</span>
+        </div>
+        <div class="heal-card">
+            <h4>🔀 Conflict Resolution</h4>
+            <p>When two agent outputs conflict (e.g., architect changes a schema that the coder just implemented against), the coordinator mediates: it compares timestamps, checks which output aligns with the latest human directive, and routes the losing side for rework.</p>
+            <span class="trigger">Trigger: Overlapping file modifications</span>
+        </div>
+        <div class="heal-card">
+            <h4>🚨 Deadlock Detection</h4>
+            <p>If no task progresses for multiple consecutive heartbeats, the coordinator recognizes the deadlock, diagnoses the root cause (circular dependency, missing prerequisite, unclear acceptance criteria), and either redecomposes the blocked task or escalates via the human inbox response channel.</p>
+            <span class="trigger">Trigger: Zero progress for 3+ heartbeats</span>
+        </div>
+    </div>
+
+    <div class="callout amber" style="margin-top: 1.5rem;">
+        <strong>Why This Matters</strong>
+        In traditional workflows, any agent error halts the pipeline until a human investigates. Self-healing means the system can recover from the majority of failures autonomously — reducing the human oversight burden from constant monitoring to periodic review. The agents operate like an on-call team that fixes its own incidents.
+    </div>
+</section>
+
+<!-- ═══════════════════ HUMAN-IN-THE-LOOP ═══════════════════ -->
+<section id="inbox">
+    <div class="section-label">Steering Mechanism</div>
+    <h2>Human-in-the-Loop Inbox</h2>
+    <p class="subtitle">The system is autonomous but not uncontrolled. A structured inbox file lets the human operator steer direction, override decisions, ask questions, and pivot priorities — all by editing a single markdown file.</p>
+
+    <div class="flow-container">
+        <div class="flow-box" style="border-color: var(--amber); background: var(--amber-bg);">👤 Human<small>Writes directive</small></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-box">INBOX.md<small>Pending section</small></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-box highlight">Coordinator<small>Reads on heartbeat</small></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-box">Decompose<small>Into tasks</small></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-box green">Execute &amp; Report<small>Move to Processed</small></div>
+    </div>
+
+    <div class="card-grid cols-2" style="margin-top: 2rem;">
+        <div class="card">
+            <div class="tag tag-amber">Priority System</div>
+            <h3>🎚️ Four Priority Levels</h3>
+            <ul>
+                <li><strong>Critical</strong> — Drop everything. Current task paused immediately.</li>
+                <li><strong>High</strong> — Processed before any existing backlog items.</li>
+                <li><strong>Normal</strong> — Folded into the current sprint at natural priority.</li>
+                <li><strong>Low</strong> — Noted for future sprints; no immediate action.</li>
+            </ul>
+        </div>
+        <div class="card">
+            <div class="tag tag-purple">Message Types</div>
+            <h3>📨 Four Directive Types</h3>
+            <ul>
+                <li><strong>Directive</strong> — Direct order: "Build X" or "Use technology Y".</li>
+                <li><strong>Question</strong> — Team researches and answers in a response section.</li>
+                <li><strong>Feedback</strong> — Commentary on recent work; coordinator adjusts approach.</li>
+                <li><strong>Pivot</strong> — Major direction change. Halts current work, re-plans sprint.</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="code-block" style="margin-top: 1.5rem;">
+<span class="comment">## Pending</span>
+
+<span class="accent">### INBOX-002 — Switch to Fastify instead of Express</span>
+<span class="key">Priority:</span> <span class="string">high</span>
+<span class="key">Type:</span> <span class="string">directive</span>
+<span class="key">Date:</span> <span class="string">2026-04-21</span>
+
+Benchmarks show Fastify handles 3x more requests per second.
+Refactor the API foundation to use Fastify with the
+same middleware pattern. Keep the existing route structure.
+    </div>
+    <p style="text-align:center; font-size:.82rem; color:var(--gray-500); margin-top:.5rem;">The coordinator picks this up on the next heartbeat and decomposes it into architect + coder tasks.</p>
+</section>
+
+<!-- ═══════════════════ KEY CONCEPTS ═══════════════════ -->
+<section id="concepts">
+    <div class="section-label">Agentic Programming Patterns</div>
+    <h2>Key Concepts Explored</h2>
+    <p class="subtitle">This project is a working laboratory for modern agentic programming patterns. Each concept below is implemented and tested in the system.</p>
+
+    <div class="data-table-wrap">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Concept</th>
+                    <th>What It Means</th>
+                    <th>How It's Implemented Here</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Persistent Agent Memory</strong></td>
+                    <td>Agents retain knowledge across invocations without relying on conversation history</td>
+                    <td><code>MEMORY.md</code> for knowledge, <code>ai-state.json</code> for structured state — filesystem as shared memory</td>
+                </tr>
+                <tr>
+                    <td><strong>Task Decomposition</strong></td>
+                    <td>Breaking complex work into small, well-defined subtasks with clear acceptance criteria</td>
+                    <td>Coordinator decomposes epics into ≤1hr tasks with explicit criteria and file-scope constraints</td>
+                </tr>
+                <tr>
+                    <td><strong>Agent Specialization</strong></td>
+                    <td>Each agent has a narrow, well-defined role with strict boundaries on what it can do</td>
+                    <td>5 agents with filesystem-scoped permissions: coder edits <code>src/</code>, tester edits <code>tests/</code>, etc.</td>
+                </tr>
+                <tr>
+                    <td><strong>Self-Healing Recovery</strong></td>
+                    <td>The system detects its own errors and has pre-defined recovery paths for common failures</td>
+                    <td>Stale task detection, test-driven rollback, spec-code reconciliation, deadlock breaking</td>
+                </tr>
+                <tr>
+                    <td><strong>Structured Handoffs</strong></td>
+                    <td>Agents communicate through well-defined JSON contracts, not free-form text</td>
+                    <td>Every agent outputs typed JSON (task_id, files_modified, verdict, etc.) for deterministic routing</td>
+                </tr>
+                <tr>
+                    <td><strong>Safe Outputs / Human Gating</strong></td>
+                    <td>AI autonomy bounded by safety constraints — PRs created but never merged autonomously</td>
+                    <td><code>safe-outputs</code> in workflow config: labeled PRs, size limits, no direct pushes to main</td>
+                </tr>
+                <tr>
+                    <td><strong>Token Efficiency</strong></td>
+                    <td>Minimizing LLM token consumption through references, structured output, and dynamic tool loading</td>
+                    <td>File references via <code>#file:path</code>, JSON responses, minimal per-cycle agent invocations</td>
+                </tr>
+                <tr>
+                    <td><strong>Asynchronous Human Control</strong></td>
+                    <td>Humans steer without being in the loop for every decision — async communication via inbox</td>
+                    <td><code>INBOX.md</code> with priority levels and directive types; processed on each heartbeat cycle</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<!-- ═══════════════════ PROJECT SCOPE ═══════════════════ -->
+<section id="scope">
+    <div class="section-label">Ambition</div>
+    <h2>Project Scope &amp; Roadmap</h2>
+    <p class="subtitle">The agentic system is building a real enterprise application. The domain is flexible — what matters is proving that AI teams can deliver production-grade software autonomously.</p>
+
+    <div class="card-grid cols-3" style="margin-bottom: 2rem;">
+        <div class="card">
+            <div class="icon-ring purple">🏥</div>
+            <h3>Candidate: Healthcare Scheduling</h3>
+            <p>Specialized scheduling for multi-provider clinics. Complex constraint satisfaction, HIPAA compliance, multi-tenant architecture.</p>
+        </div>
+        <div class="card">
+            <div class="icon-ring cyan">📦</div>
+            <h3>Candidate: SME Supply Chain</h3>
+            <p>Supply-chain visibility for small/medium enterprises. Real-time tracking, vendor management, predictive shortage alerts.</p>
+        </div>
+        <div class="card">
+            <div class="icon-ring green">📋</div>
+            <h3>Candidate: Compliance Tooling</h3>
+            <p>Automated compliance tracking and reporting. Policy management, audit trail generation, regulatory change monitoring.</p>
+        </div>
+    </div>
+
+    <h3 style="margin-bottom: .5rem; color: var(--primary);">Sprint Roadmap</h3>
+    <div class="timeline">
+        <div class="timeline-item" data-step="1">
+            <h3>Sprint 1 — Bootstrap &amp; Foundation</h3>
+            <p>Project structure, base configuration, PostgreSQL schema design, JWT authentication module with refresh tokens, API foundation with middleware and error handling.</p>
+        </div>
+        <div class="timeline-item" data-step="2">
+            <h3>Sprint 2 — Core Domain Logic</h3>
+            <p>Implement the core business domain entities, CRUD operations, validation rules, and the multi-tenant data isolation layer.</p>
+        </div>
+        <div class="timeline-item" data-step="3">
+            <h3>Sprint 3 — Integration &amp; APIs</h3>
+            <p>External API integrations, webhook handlers, rate limiting, structured logging (pino), and the health check endpoint.</p>
+        </div>
+        <div class="timeline-item" data-step="4">
+            <h3>Sprint 4 — Frontend &amp; Polish</h3>
+            <p>React frontend with server components, dashboard views, responsive design, and end-to-end test suite with Playwright.</p>
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════════════ TECH STACK ═══════════════════ -->
+<section id="stack">
+    <div class="section-label">Implementation</div>
+    <h2>Technology Stack</h2>
+    <p class="subtitle">Enterprise-grade choices optimized for type safety, fast iteration, and compliance readiness.</p>
+
+    <div class="card-grid cols-4">
+        <div class="card" style="text-align:center;">
+            <div style="font-size:2rem;margin-bottom:.5rem;">🟦</div>
+            <h3 style="justify-content:center;">TypeScript</h3>
+            <p>Strict mode, no <code>any</code>. Named exports. Result pattern error handling.</p>
+        </div>
+        <div class="card" style="text-align:center;">
+            <div style="font-size:2rem;margin-bottom:.5rem;">🟩</div>
+            <h3 style="justify-content:center;">Node.js 22+</h3>
+            <p>Latest LTS runtime. Native ESM. Performance profiling built-in.</p>
+        </div>
+        <div class="card" style="text-align:center;">
+            <div style="font-size:2rem;margin-bottom:.5rem;">🐘</div>
+            <h3 style="justify-content:center;">PostgreSQL 16+</h3>
+            <p>ACID-compliant. Multi-tenant with <code>tenant_id</code>. Typed queries via Drizzle ORM.</p>
+        </div>
+        <div class="card" style="text-align:center;">
+            <div style="font-size:2rem;margin-bottom:.5rem;">⚛️</div>
+            <h3 style="justify-content:center;">React 19+</h3>
+            <p>Server components. TypeScript throughout. Component-driven UI.</p>
+        </div>
+        <div class="card" style="text-align:center;">
+            <div style="font-size:2rem;margin-bottom:.5rem;">⚡</div>
+            <h3 style="justify-content:center;">Vitest + Playwright</h3>
+            <p>Fast unit/integration tests. Browser-based E2E testing.</p>
+        </div>
+        <div class="card" style="text-align:center;">
+            <div style="font-size:2rem;margin-bottom:.5rem;">🐳</div>
+            <h3 style="justify-content:center;">Docker</h3>
+            <p>Multi-stage builds. Cloud-agnostic deployment. Dev/prod parity.</p>
+        </div>
+        <div class="card" style="text-align:center;">
+            <div style="font-size:2rem;margin-bottom:.5rem;">🤖</div>
+            <h3 style="justify-content:center;">GitHub Copilot</h3>
+            <p>Agentic Workflows engine. Custom agent definitions. Scheduled heartbeat.</p>
+        </div>
+        <div class="card" style="text-align:center;">
+            <div style="font-size:2rem;margin-bottom:.5rem;">🔐</div>
+            <h3 style="justify-content:center;">Security First</h3>
+            <p>OWASP Top 10. Zod validation. PII marking. Encryption at rest + transit.</p>
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════════════ FOOTER ═══════════════════ -->
+<footer>
+    <p>Built by <strong style="color:rgba(255,255,255,.85);">Scott Bowden</strong> · Autonomous AI Development with GitHub Copilot Agentic Workflows · April 2026</p>
+    <p style="margin-top:.5rem;">
+        <a href="https://github.com/sbowden94/Reclaimandrectify">View Repository</a>
+    </p>
+</footer>
+
+<!-- ── Smooth scroll + active nav ── -->
+<script>
+    document.querySelectorAll('nav a').forEach(link => {
+        link.addEventListener('click', e => {
+            const href = link.getAttribute('href');
+            if (href && href.startsWith('#')) {
+                e.preventDefault();
+                const target = document.querySelector(href);
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    history.pushState(null, '', href);
+                }
+            }
+        });
+    });
+
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('nav a[href^="#"]');
+
+    function updateActiveNav() {
+        let current = '';
+        sections.forEach(section => {
+            const top = section.offsetTop - 100;
+            if (window.scrollY >= top) current = section.getAttribute('id');
+        });
+        navLinks.forEach(link => {
+            link.classList.toggle('active', link.getAttribute('href') === '#' + current);
+        });
+    }
+
+    window.addEventListener('scroll', updateActiveNav, { passive: true });
+    updateActiveNav();
+</script>
+</body>
+</html>
